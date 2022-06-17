@@ -1,4 +1,4 @@
-port#if (ARDUINO >= 100)
+#if (ARDUINO >= 100)
   #include <Arduino.h>
 #else
   #include <WProgram.h>

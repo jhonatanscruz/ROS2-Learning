@@ -8,20 +8,20 @@
 #define EN1_B 31
 
 #define PWMB 8   //B - Velocidade do motor
-#define DIRB1 37
-#define DIRB2 36 //B - Direção do motor
-#define EN2_A 19
-#define EN2_B 38
+#define DIRB1 36
+#define DIRB2 37 //B - Direção do motor
+#define EN2_A 38
+#define EN2_B 19
 
 #define PWMC 9   //C - Velocidade do motor
 #define DIRC1 43
 #define DIRC2 42 //C - Direção do motor
-#define EN3_A 3
-#define EN3_B 49
+#define EN3_A 49
+#define EN3_B 3
 
 #define PWMD 5   //D - Velocidade do motor
-#define DIRD1 A4
-#define DIRD2 A5 //D - Direção do motor
+#define DIRD1 A5
+#define DIRD2 A4 //D - Direção do motor
 #define EN4_A 2
 #define EN4_B A1
 
@@ -29,17 +29,17 @@
 #define MOTORA_STOP(x)         do{digitalWrite(DIRA1,LOW); digitalWrite(DIRA2,LOW); analogWrite(PWMA,0);}while(0)
 #define MOTORA_BACKOFF(pwm)    do{digitalWrite(DIRA1,HIGH);digitalWrite(DIRA2,LOW); analogWrite(PWMA,pwm);}while(0)
 
-#define MOTORB_FORWARD(pwm)    do{digitalWrite(DIRB1,HIGH); digitalWrite(DIRB2,LOW); analogWrite(PWMB,pwm);}while(0)
+#define MOTORB_FORWARD(pwm)    do{digitalWrite(DIRB1,LOW); digitalWrite(DIRB2,HIGH); analogWrite(PWMB,pwm);}while(0)
 #define MOTORB_STOP(x)         do{digitalWrite(DIRB1,LOW); digitalWrite(DIRB2,LOW); analogWrite(PWMB,0);}while(0)
-#define MOTORB_BACKOFF(pwm)    do{digitalWrite(DIRB1,LOW);digitalWrite(DIRB2,HIGH); analogWrite(PWMB,pwm);}while(0)
+#define MOTORB_BACKOFF(pwm)    do{digitalWrite(DIRB1,HIGH);digitalWrite(DIRB2,LOW); analogWrite(PWMB,pwm);}while(0)
 
 #define MOTORC_FORWARD(pwm)    do{digitalWrite(DIRC1,LOW); digitalWrite(DIRC2,HIGH); analogWrite(PWMC,pwm);}while(0)
 #define MOTORC_STOP(x)         do{digitalWrite(DIRC1,LOW); digitalWrite(DIRC2,LOW); analogWrite(PWMC,0);}while(0)
 #define MOTORC_BACKOFF(pwm)    do{digitalWrite(DIRC1,HIGH);digitalWrite(DIRC2,LOW); analogWrite(PWMC,pwm);}while(0)
 
-#define MOTORD_FORWARD(pwm)    do{digitalWrite(DIRD1,HIGH); digitalWrite(DIRD2,LOW); analogWrite(PWMD,pwm);}while(0)
+#define MOTORD_FORWARD(pwm)    do{digitalWrite(DIRD1,LOW); digitalWrite(DIRD2,HIGH); analogWrite(PWMD,pwm);}while(0)
 #define MOTORD_STOP(x)         do{digitalWrite(DIRD1,LOW); digitalWrite(DIRD2,LOW); analogWrite(PWMD,0);}while(0)
-#define MOTORD_BACKOFF(pwm)    do{digitalWrite(DIRD1,LOW);digitalWrite(DIRD2,HIGH); analogWrite(PWMD,pwm);}while(0)
+#define MOTORD_BACKOFF(pwm)    do{digitalWrite(DIRD1,HIGH);digitalWrite(DIRD2,LOW); analogWrite(PWMD,pwm);}while(0)
 
 #define SERIAL  Serial
 
@@ -53,7 +53,7 @@
 
 #define MAX_PWM   200
 #define MIN_PWM   130
-int Motor_PWM = 60;
+int Motor_PWM = 75;
 
 // ENCODERS
 Encoder encoder_1(EN1_A, EN1_B);
@@ -220,10 +220,7 @@ void getEncoderPosition(Encoder myEnc, long oldPosition){
 void setup()
 {
   Serial.begin(9600);
-  while(!SERIAL);
   IO_init();
-  Serial.println(digitalRead(DIRA2));
-  Serial.println(analogRead(PWMA));
 }
 
 void loop() {
@@ -257,15 +254,15 @@ void loop() {
   STOP();
   delay(1000);
 
-  M_LOG(encoder.read());
-
+  M_LOG(String(encoder_1.read()) + " " + String(-encoder_2.read()) + " " + String(encoder_3.read()) + " " + String(encoder_4.read()));
+  
   TURN_LEFT();
   delay(5000);
 
   STOP();
   delay(1000);
 
-  M_LOG(encoder.read());
+  M_LOG(String(encoder_1.read()) + " " + String(-encoder_2.read()) + " " + String(encoder_3.read()) + " " + String(encoder_4.read()));
 
   TURN_RIGHT();
   delay(5000);
@@ -273,5 +270,6 @@ void loop() {
   STOP();
   delay(1000);
 
-  M_LOG(encoder.read());
+  M_LOG(String(encoder_1.read()) + " " + String(-encoder_2.read()) + " " + String(encoder_3.read()) + " " + String(encoder_4.read()));
+
 }
