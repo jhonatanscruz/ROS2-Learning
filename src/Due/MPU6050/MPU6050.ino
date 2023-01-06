@@ -92,18 +92,20 @@ void loop() {
       +/-1000°/s = 32.8
       +/-2000°/s = 16.4
   */
+
+    Serial.print("AccX: ");
+    Serial.print(AccX / 2048.);
+    Serial.print(" | AccY: ");
+    Serial.print(AccY / 2048.);
+    Serial.print(" | AccZ: ");
+    Serial.println(AccZ / 2048.);
 /*
-  Serial.print(AccX / 2048.);
-  Serial.print(" ");
-  Serial.print(AccY / 2048.);
-  Serial.print(" ");
-  Serial.println(AccZ / 2048.);
-*/
   Serial.print(GyrX / 16.4);
   Serial.print(" ");
   Serial.print(GyrY / 16.4);
   Serial.print(" ");
   Serial.println(GyrZ / 16.4);
+*/
   // Atraso de 100ms
-  delay(100);
+  delay(1500);
 }
